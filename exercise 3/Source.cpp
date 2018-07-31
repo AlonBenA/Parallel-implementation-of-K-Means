@@ -435,7 +435,7 @@ void SelectFirstClusters(point *pointArray, cluster *clusterArray, int NumberOfP
 
 int ClosetClustersForEachPoint(point *pointArray, cluster *clusterArray, int NumberOfPoints, int NumberOfClusters)
 {
-	//for each point Calculates the nearest calster, if it is different from what it used to be
+	//for each point Calculates the nearest cluster, if it is different from what it used to be
 	//then breakFlag is Changing and another round is needed. 
 	int i, j, tempId;
 	float min, temp;
