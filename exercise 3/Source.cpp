@@ -55,14 +55,14 @@ void initializationOFArray(int array[], int size)
 
 float distanceBetweenPointAndCluster(point p1, cluster p2)
 {
-	//Calculates the distance of a point and cluster
+	//Calculates the distance between a point and cluster
 	double  gdistance = ((p2.x - p1.x)*(p2.x - p1.x)) + ((p2.y - p1.y)*(p2.y - p1.y));
 	return (float) gdistance;
 }
 
 double distanceBetween2Point(point p1, point p2)
 {
-	//Calculates the distance of a point and cluster
+	//Calculates the distance between 2 points
 	double gdistance = ((p2.x - p1.x)*(p2.x - p1.x)) + ((p2.y - p1.y)*(p2.y - p1.y));
 	if (gdistance<0)
 		return sqrt(-gdistance);
@@ -71,7 +71,7 @@ double distanceBetween2Point(point p1, point p2)
 
 double distanceBetween2Cluster(cluster p1, cluster p2)
 {
-	//Calculates the distance of a point and cluster
+	//Calculates the distance between 2 cluster
 	double gdistance = ((p2.x - p1.x)*(p2.x - p1.x)) + ((p2.y - p1.y)*(p2.y - p1.y));
 	if (gdistance<0)
 		return sqrt(-gdistance);
@@ -279,7 +279,7 @@ void CopyClusterArray(cluster *clusterArray, cluster *tempClusterArray, int Numb
 
 void SendToSlave(point *pointArray, cluster *clusterArray, data theData, int NumberOfPoints, int NumberOfClusters, MPI_Datatype PointMPIType, MPI_Datatype clusterMPIType, MPI_Datatype DataMPIType, int NumberOfSlaves)
 {
-	//send the points array, cluster Array and all the information needed for the clusters to work separately 
+	//Send the points array, cluster Array and all the information needed for the clusters to work separately 
 	int i;
 	for (i = 1; i <= NumberOfSlaves; i++)
 	{
@@ -292,7 +292,7 @@ void SendToSlave(point *pointArray, cluster *clusterArray, data theData, int Num
 
 void EndSlaves(int NumberOfSlaves, int SlaveStatus[3], int NumberOfClusters, MPI_Datatype clusterMPIType)
 {
-	//
+	//The End the work of all the threads
 	MPI_Status status;
 	int EndFlag = FOUND;
 	int i;
@@ -309,8 +309,9 @@ void EndSlaves(int NumberOfSlaves, int SlaveStatus[3], int NumberOfClusters, MPI
 			numberOfActiveSlave -= 1;
 		}
 	}
-	//Gets the message from all the threads that are still active and if they are found clusters that are less than the quality
-	//the master get also the massage with those cluster but not saveing it, the thread that find the qulity will stop working 
+	//Gets the message from all the threads that are still active and if they found clusters that are less than the quality
+	//the master also gets a message with those clustera and data of who found it and when.
+	//but not saveing it, the thread that find the qulity will stop working 
 	//and if the thread didn't found qulity the master send him that he found one so he can't stop. 
 	for (i = 0; i < numberOfActiveSlave; i++)
 	{
